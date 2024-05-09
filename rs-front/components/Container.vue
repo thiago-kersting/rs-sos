@@ -6,10 +6,6 @@
 
 <style scoped>
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     max-width: 328px;
     margin: 0 auto;
 }

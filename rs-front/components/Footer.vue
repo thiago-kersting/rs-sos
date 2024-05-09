@@ -1,6 +1,9 @@
 <template>
     <footer>
-        <h4>Contact: Thiago Kersting Puls</h4>
+        <div>
+            <h4>Contact: Thiago Kersting Puls</h4>
+            <h5>55 51 996774146</h5>
+        </div>
         <a href="https://www.linkedin.com/in/thiago-kersting/">
             <img src="/linkedin.png" alt="github logo">
         </a>
@@ -19,10 +22,16 @@ footer {
     display: flex;
     gap: 1rem;
     padding: 1rem 2rem;
-    box-shadow: 8px 8px 30px 0px rgba(157, 43, 43, 0.171);
+    box-shadow: 8px 8px 30px 0px rgba(157, 43, 43, 0.394);
     width: 100%;
-    position: absolute;
+    position: relative;
     bottom: 0;
+    margin-top: 3rem;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+a {
+    font-size: 0;
 }
 .logo {
     max-height: 50px;
