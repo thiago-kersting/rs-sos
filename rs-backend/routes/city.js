@@ -35,6 +35,7 @@ router.put('/:cityId/:locationId', async (req, res) => {
   location.localName = req.body.localName;
   location.localAdress = req.body.localAdress;
   location.needVolunteers = req.body.needVolunteers;
+  location.type = req.body.type;
   location.items = req.body.items;
   
   const savedCity = await city.save();

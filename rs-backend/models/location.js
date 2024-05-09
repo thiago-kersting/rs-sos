@@ -11,6 +11,11 @@ const locationSchema = new mongoose.Schema({
         type: String,
     },
     needVolunteers: Boolean,
+    type: {
+        type: String,
+        enum: ['human', 'pet', 'petfriendly'],
+        required: true
+    },
     items: [itemSchema]
 }, { timestamps: true });
 

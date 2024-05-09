@@ -4,10 +4,10 @@
             <h4>Contact: Thiago Kersting Puls</h4>
             <h5>55 51 996774146</h5>
         </div>
-        <a href="https://www.linkedin.com/in/thiago-kersting/">
+        <a href="https://www.linkedin.com/in/thiago-kersting/" target="_blank">
             <img src="/linkedin.png" alt="github logo">
         </a>
-        <a href="https://github.com/thiago-kersting/">
+        <a href="https://github.com/thiago-kersting/" target="_blank">
             <img src="/github.png" alt="github logo">
         </a>
     </footer>

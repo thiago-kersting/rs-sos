@@ -5,14 +5,22 @@
             <div class="card" v-for="locations in city.locations" :key="locations._id">
                 <div class="card__header">
                     <h3>{{ locations.localName }}</h3>
-                    <h4 :style="{color: locations.needVolunteers ? '#38c86a' : '#dc4e4e'}">{{ locations.needVolunteers ? "Precisa de Voluntários!" : "Não precisa de Voluntários" }}</h4>
-                    <h4>{{ locations.localAdress }}</h4>
+                    <p>{{ locations.localAdress }}</p>
                     <a style="text-decoration: none;" :href="'https://www.google.com/maps/search/?api=1&query=' + locations.localAdress + ' ' + city.cityName" target="_blank">
                         <button style="display: flex; align-items: center; background: none; border: none; color: #242424; font-weight: 700;">
                             <img style="margin-right: .5rem;" src="/map.png" alt="google maps">
                             Clique aqui para pesquisar no maps
                         </button>
                     </a>
+                    <div style="display: flex; gap: .5rem; align-items: center;">
+                        <img v-if="locations.type === 'petfriendly'" src="/pet-friendly.png" alt="petfriendly">
+                        <img v-if="locations.type === 'pet'" src="/animal.png" alt="animal">
+                        <img v-if="locations.type === 'human'" src="/no-animal.png" alt="animal">
+                        <h4 style="color: rgb(78 122 220)">
+                            {{ locations.type === 'human' ? 'Não aceita animais' : locations.type === 'pet' ? 'Só aceita animais' : locations.type === 'petfriendly' ? 'Aceita humanos e animais' : ''}}
+                        </h4>
+                    </div>
+                    <h4 :style="{color: locations.needVolunteers ? '#38c86a' : '#dc4e4e'}">{{ locations.needVolunteers ? "Precisa de Voluntários!" : "Não precisa de Voluntários" }}</h4>
                 </div>
                 <h4 v-if="locations.items.length > 0">Precisa com urgência:</h4>
                 <ul>
@@ -20,7 +28,7 @@
                         {{ primeiraLetraMaiuscula(items.name)}}
                     </li>
                 </ul>
-                <EditLocation :location="locations" :city="city.cityName" :cityId="city._id"/>
+                <EditLocation v-if="permission" :location="locations" :city="city.cityName" :cityId="city._id"/>
                 <p class="date">Atualizado por último {{ formatarDataHora(locations.updatedAt) }}</p>
             </div>
             <CreateLocation :city="city.cityName" :cityId="city._id"/>
@@ -29,6 +37,15 @@
 </template>
 
 <script setup>
+defineProps({
+    cities: {
+        type: Array,
+        required: true,
+    }
+})
+
+const permission = ref(false);
+
 function primeiraLetraMaiuscula(palavra) {
     return palavra.charAt(0).toUpperCase() + palavra.slice(1);
 }
@@ -48,12 +65,6 @@ function formatarDataHora(data) {
     return date.toLocaleString('pt-BR', options);
 }
 
-defineProps({
-    cities: {
-        type: Array,
-        required: true,
-    }
-})
 </script>
 
 <style scoped>

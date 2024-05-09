@@ -8,7 +8,7 @@
                 <span></span>
                 <h1>Criar abrigo em {{ props.city }}</h1>
                 <button @click="modalOpen = !modalOpen" class="close-button">
-                    X
+                    <img src="/close.png" alt="fechar">
                 </button>
             </template>
             <template v-slot:content>
@@ -19,6 +19,17 @@
                 <div style="display: flex; gap: 1rem; align-items: center; margin: 10px 0 20px;">
                     <label for="volunteers">Precisa de voluntários?</label>
                     <input v-model="needVolunteers" id="volunteers" type="checkbox">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin: 10px 0 20px;">
+                    <p for="volunteers">Tipo de abrigo:</p>
+                    <div>
+                        <input style="margin-right: .5rem;" type="radio" id="human" name="type" value="human" v-model="type">
+                        <label for="human">Humanos</label><br>
+                        <input style="margin-right: .5rem;" type="radio" id="pet" name="type" value="pet" v-model="type">
+                        <label for="pet">Animais</label><br>  
+                        <input style="margin-right: .5rem;" type="radio" id="petfriendly" name="type" value="petfriendly" v-model="type">
+                        <label for="petfriendly">Humanos e Animais</label><br><br>
+                    </div>
                 </div>
                 <label for="volunteers">Precisa de algum item?</label>
                 <input v-model="itemName" type="text" placeholder="Nome do item" class="input-field">
@@ -61,6 +72,7 @@ const modalOpen = ref(false);
 const localName = ref('');
 const localAdress = ref('');
 const needVolunteers = ref(false);
+const type = ref('');
 
 const items = ref([]);
 
@@ -86,6 +98,7 @@ async function addLocation() {
         localName: localName.value,
         localAdress: localAdress.value,
         needVolunteers: needVolunteers.value,
+        type: type.value,
         items: items.value
     };
 
@@ -107,6 +120,7 @@ async function addLocation() {
         // Limpar os campos de entrada da localização
         localName.value = '';
         localAdress.value = '';
+        type.value = '';
         needVolunteers.value = false;
         items.value = [];
         

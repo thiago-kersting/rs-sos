@@ -1,14 +1,14 @@
 <template>
     <div>
         <button @click="openDetails = !openDetails" class="button_details">
-            + Detalhes
+            Editar
         </button>
         <MobSlider :isActive="openDetails">
             <template v-slot:headerContent>
                 <span></span>
                 <h1>Editar {{ props.location.localName }} em {{ props.city }}</h1>
                 <button @click="openDetails = !openDetails" class="close-button">
-                    X
+                    <img src="/close.png" alt="fechar">
                 </button>
             </template>
             <template v-slot:content>
@@ -30,6 +30,17 @@
                         </h3>
                         <img src="/edit.png" alt="edit">
                     </button>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-left: 1rem;">
+                        <p for="volunteers">Tipo de abrigo:</p>
+                        <div>
+                            <input style="margin-right: .5rem;" type="radio" id="human" name="type" value="human" v-model="typeRadio">
+                            <label for="human">Humanos</label><br>
+                            <input style="margin-right: .5rem;" type="radio" id="pet" name="type" value="pet" v-model="typeRadio">
+                            <label for="pet">Animais</label><br>  
+                            <input style="margin-right: .5rem;" type="radio" id="petfriendly" name="type" value="petfriendly" v-model="typeRadio">
+                            <label for="petfriendly">Humanos e Animais</label><br><br>
+                        </div>
+                    </div>
                     <div>
                         <h3 class="title">Clique para editar os itens:</h3>
                         <ul>
@@ -76,11 +87,11 @@
                         </button>
                     </div>
                     <button @click="editLocation()" class="edit-location-button"
-                    style="height: 3rem; margin-top: 2rem;">
-                    Terminar edição
-                </button>
-            </div>
-        </template>
+                        style="height: 3rem; margin-top: 2rem;">
+                        Terminar edição
+                    </button>
+                </div>
+            </template>
         </MobSlider>
     </div>
 </template>
@@ -112,11 +123,9 @@ const editItems = ref("");
 const localName = ref(props.location.localName);
 const localAdress = ref(props.location.localAdress);
 const needVolunteers = ref(props.location.needVolunteers);
+const typeRadio = ref(props.location.type);
 const items = ref(props.location.items);
 
-onMounted(() => {
-    console.log(props.cityId, props.location._id)
-})
 
 const chipAction = (item) => {
     if(editItems.value === 'delete') {
@@ -134,6 +143,7 @@ async function editLocation() {
         localName: localName.value,
         localAdress: localAdress.value,
         needVolunteers: needVolunteers.value,
+        type: typeRadio.value,
         items: items.value
     };
 
@@ -155,6 +165,7 @@ async function editLocation() {
         localName.value = props.location.localName;
         localAdress.value = props.location.localAdress;
         needVolunteers.value = props.location.needVolunteers;
+        typeRadio.value = location.type;
         items.value = props.location.items;
         
         openDetails.value = false;
@@ -166,6 +177,9 @@ async function editLocation() {
 </script>
 
 <style scoped>
+button {
+    cursor: pointer;
+}
 .button_details {
     background: #242424;
     color: whitesmoke;
@@ -201,7 +215,8 @@ async function editLocation() {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    overflow-y: auto;
+    border-bottom: 2px solid hsla(0, 0%, 82%, 0.62);
+    padding-bottom: 1rem;
 }
 
 .content button {
@@ -264,5 +279,12 @@ button input {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+}
+.addChip input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 </style>
