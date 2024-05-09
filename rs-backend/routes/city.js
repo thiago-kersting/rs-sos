@@ -28,6 +28,19 @@ router.post('/:cityId/locations', async (req, res) => {
     res.json(savedCity);
   });
 
+router.put('/:cityId/:locationId', async (req, res) => {
+  const city = await City.findById(req.params.cityId);
+  const location = city.locations.id(req.params.locationId);
+  
+  location.localName = req.body.localName;
+  location.localAdress = req.body.localAdress;
+  location.needVolunteers = req.body.needVolunteers;
+  location.items = req.body.items;
+  
+  const savedCity = await city.save();
+  res.json(savedCity);
+});
+
 router.post('/:cityId/:locationId/items', async (req, res) => {
     const city = await City.findById(req.params.cityId);
     const location = city.locations.id(req.params.locationId);

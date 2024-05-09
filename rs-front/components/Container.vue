@@ -8,6 +8,9 @@
 main {
     max-width: 328px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 @media(min-width: 768px) {
     main {

@@ -5,13 +5,9 @@ const itemSchema = new mongoose.Schema({
         required: true,
         type: String
     },
-    type: {
+    urgent: {
         required: true,
-        type: String
-    },
-    quantity: {
-        required: true,
-        type: Number
+        type: Boolean
     },
     need: Boolean
 });

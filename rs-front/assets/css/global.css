@@ -6,10 +6,25 @@
 }
 
 body {
-    background: #f2f2f2;
+    background: #fff;
     min-height: 100vh;
 }
 
 #__nuxt {
     min-height: 100vh
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+li {
+    width: max-content;
+    padding: .2rem 1rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    color: #ffffff;
+    background: #b0a130;
 }

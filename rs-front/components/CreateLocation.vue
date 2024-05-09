@@ -23,11 +23,13 @@
                 <label for="volunteers">Precisa de algum item?</label>
                 <input v-model="itemName" type="text" placeholder="Nome do item" class="input-field">
                 <p style="font-size: 12px;">*Opcional</p>
-                <input v-model="itemQuantity" type="number" placeholder="Quantidade" class="input-field">
-                <p style="font-size: 12px;">*Opcional</p>
+                <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+                    <label for="urgent">É urgente?</label>
+                    <input id="urgent" v-model="itemUrgent" type="checkbox" placeholder="Urgente">
+                </div>
                 <div style="margin-top: 1rem;">
                     <ul>
-                        <li v-for="item in items" :key="item.name" :style="{ background: item.quantity > 30 ? '#dc4e4e' : '#c8b738', 'font-weight': items.quantity > 30 ? 'bold' : 'light' }">
+                        <li v-for="item in items" :key="item.name" :style="{ background: item.urgent ? '#dc4e4e' : '#c8b738', 'font-weight': items.urgent ? 'bold' : 'light' }">
                             {{ primeiraLetraMaiuscula(item.name) }}
                         </li>
                     </ul>
@@ -63,20 +65,20 @@ const needVolunteers = ref(false);
 const items = ref([]);
 
 const itemName = ref('');
-const itemQuantity = ref(0);
+const itemUrgent = ref(true);
 
 function addItem() {
     if(itemName.value) {
         items.value.push({
         name: itemName.value,
-        quantity: itemQuantity.value,
+        urgent: itemUrgent.value,
         need: true,
         });
     }
     
     // Limpar os campos de entrada do item
     itemName.value = '';
-    itemQuantity.value = 0;
+    itemUrgent.value = false;
 }
 
 async function addLocation() {

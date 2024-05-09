@@ -1,11 +1,12 @@
 <template>
     <section>
         <div class="city" v-for="city in cities" :key="city._id">
-            <h1>{{ city.cityName }}</h1>
+            <h1>Abrigos disponíveis em {{ city.cityName }} ( {{ city.locations.length }} )</h1>
             <div class="card" v-for="locations in city.locations" :key="locations._id">
-                <div>
+                <div class="card__header">
                     <h3>{{ locations.localName }}</h3>
-                    <h4 style="margin: .5rem 0 1rem;">- {{ locations.localAdress }}</h4>
+                    <h4 :style="{color: locations.needVolunteers ? '#38c86a' : '#dc4e4e'}">{{ locations.needVolunteers ? "Precisa de Voluntários!" : "Não precisa de Voluntários" }}</h4>
+                    <h4>{{ locations.localAdress }}</h4>
                     <a style="text-decoration: none;" :href="'https://www.google.com/maps/search/?api=1&query=' + locations.localAdress + ' ' + city.cityName" target="_blank">
                         <button style="display: flex; align-items: center; background: none; border: none; color: #242424; font-weight: 700;">
                             <img style="margin-right: .5rem;" src="/map.png" alt="google maps">
@@ -13,17 +14,14 @@
                         </button>
                     </a>
                 </div>
-                <h4 :style="{color: locations.needVolunteers ? '#38c86a' : '#dc4e4e'}">{{ locations.needVolunteers ? "Precisa de Voluntários!" : "Não precisa de Voluntários" }}</h4>
-                <h4 v-if="locations.items.length > 0">Itens Necessitados:</h4>
+                <h4 v-if="locations.items.length > 0">Precisa com urgência:</h4>
                 <ul>
-                    <div v-for="items in locations.items" :key="items._id">
-                        <li :style="{ background: items.quantity > 30 ? '#dc4e4e' : '#c8b738', 'font-weight': items.quantity > 30 ? 'bold' : 'light' }">
-                            {{ primeiraLetraMaiuscula(items.name) }}
-                        </li>
-                    </div>
+                    <li v-for="items in locations.items" :key="items._id" :style="{ background: '#dc4e4e', 'font-weight' : 'bold',  display: items.urgent ? 'flex' : 'none'}">
+                        {{ primeiraLetraMaiuscula(items.name)}}
+                    </li>
                 </ul>
-                <EditLocation :city="city.cityName" :cityId="city._id"/>
-                <p class="date">Atualizado por último {{ formatarDataHora(city.updatedAt) }}</p>
+                <EditLocation :location="locations" :city="city.cityName" :cityId="city._id"/>
+                <p class="date">Atualizado por último {{ formatarDataHora(locations.updatedAt) }}</p>
             </div>
             <CreateLocation :city="city.cityName" :cityId="city._id"/>
         </div>
@@ -63,7 +61,6 @@ section {
     display: flex;
     flex-direction: column;
     gap: 5rem;
-    margin-top: 2rem;
     align-items: flex-start;
 }
 
@@ -80,17 +77,25 @@ section {
 }
 
 .card {
-    background: rgb(255, 255, 255);
     width: 100%;
     transition: .3s ease-out;
     padding: 1rem;
-    border-radius: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    border: 2px solid hsla(0, 0%, 82%, 0.62);
+    border-radius: .5rem;
 }
 .card:hover {
     box-shadow: 8px 8px 30px 0px rgba(157, 43, 43, 0.171);
+}
+.card__header {
+    border-bottom: 2px solid hsla(0, 0%, 82%, 0.62);
+    padding-bottom: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
 }
 .card ul {
     list-style-type: none;
@@ -100,12 +105,10 @@ section {
 }
 li {
     width: max-content;
-    padding: .5rem;
+    padding: .2rem 1rem;
     border-radius: 2rem;
     font-size: 1rem;
     color: #ffffff;
-    display: flex;
-    gap: 1rem;
     background: #b0a130;
 }
 .date {
